@@ -1,0 +1,6 @@
+---
+- hosts: riemann
+  sudo: true
+  tasks:
+    - name: Install Riemann
+      pkgng: name=riemann state=present
