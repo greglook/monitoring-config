@@ -1,0 +1,16 @@
+---
+rc_conf_dir: /etc/rc.conf.d
+
+riemann_enable: yes
+riemann_conf_dir: /usr/local/etc/riemann
+riemann_conf_file: riemann.config
+
+riemann_bind_address: 0.0.0.0
+riemann_tls_port: 5554
+riemann_tcp_port: 5555
+riemann_udp_port: 5555
+riemann_ws_port:  5556
+
+
+riemann_dash_enable: yes
+riemann_dash_conf_file: dash-config.rb
