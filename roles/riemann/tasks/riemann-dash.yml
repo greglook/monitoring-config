@@ -1,0 +1,25 @@
+---
+- name: Install Ruby
+  pkgng: name=ruby state=present
+
+- name: Install riemann-dash gem
+  gem: name=riemann-dash state=latest
+
+- name: Write rc configuration
+  template:
+    src: rc.dash.conf.j2
+    dest: "{{ rc_conf_dir }}/riemann-dash.conf"
+    owner: root
+    group: wheel
+    mode: '0644'
+
+- name: Write riemann-dash configuration
+  template:
+    src: riemann.config.j2
+    dest: "{{ riemann_conf_dir }}/{{ riemann_dash_conf_file }}"
+    owner: root
+    group: wheel
+    mode: '0644'
+
+- name: Start Riemann dashboard
+  service: name=riemann-dash state=running

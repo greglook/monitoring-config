@@ -1,10 +1,4 @@
 ---
-- name: Install Java
-  pkgng: name=openjdk8 state=present
-
-- name: Install Riemann
-  pkgng: name=riemann state=present
-
 - name: Create rc config directory
   file:
     path: "{{ rc_conf_dir }}"
@@ -13,21 +7,6 @@
     group: wheel
     mode: '0755'
 
-- name: Write rc configuration
-  template:
-    src: rc.riemann.conf.j2
-    dest: "{{ rc_conf_dir }}/riemann.conf"
-    owner: root
-    group: wheel
-    mode: '0644'
-
-- name: Write Riemann configuration
-  template:
-    src: riemann.config.j2
-    dest: "{{ riemann_conf_dir }}/{{ riemann_conf_file }}"
-    owner: root
-    group: wheel
-    mode: '0644'
-
-- name: Start Riemann service
-  service: name=riemann state=running
+- include: riemann-server.yml
+- include: riemann-dash.yml
+- include: nginx.yml
