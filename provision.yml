@@ -1,6 +1,23 @@
 ---
-- hosts: riemann
-  sudo: true
+- hosts: all
+  remote_user: root
   tasks:
-    - name: Install Riemann
-      pkgng: name=riemann state=present
+    - name: Install bash
+      pkgng: name=bash state=present
+    - name: Create admin user
+      user:
+        uid: 1000
+        name: admin
+        group: wheel
+        home: /home/admin
+        shell: /usr/local/bin/bash
+    - name: Add ssh authorized_keys
+      authorized_key:
+        user: admin
+        key: "{{ item }}"
+        exclusive: true
+      with_file:
+        - private/admin_public_key
+    # TODO: truncate /etc/motd
+    # TODO: echo change /etc/ssh/sshd_config : PermitRootLogin no
+    # TODO: PermitPasswordLogin no
