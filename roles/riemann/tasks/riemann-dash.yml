@@ -12,6 +12,8 @@
     owner: root
     group: wheel
     mode: '0644'
+  notify:
+    - restart riemann-dash
 
 - name: Write riemann-dash configuration
   template:
@@ -20,6 +22,8 @@
     owner: root
     group: wheel
     mode: '0644'
+  notify:
+    - restart riemann-dash
 
 - name: Start Riemann dashboard
   service: name=riemann-dash state=running

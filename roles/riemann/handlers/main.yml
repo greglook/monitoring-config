@@ -1,0 +1,9 @@
+---
+- name: restart riemann
+  service: name=riemann state=restarted
+
+- name: reload riemann
+  service: name=riemann state=reloaded
+
+- name: restart riemann-dash
+  service: name=riemann-dash state=restarted

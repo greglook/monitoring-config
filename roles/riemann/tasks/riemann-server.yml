@@ -12,6 +12,8 @@
     owner: root
     group: wheel
     mode: '0644'
+  notify:
+    - restart riemann
 
 - name: Write Riemann configuration
   template:
@@ -20,6 +22,8 @@
     owner: root
     group: wheel
     mode: '0644'
+  notify:
+    - reload riemann
 
 - name: Start Riemann service
   service: name=riemann state=running
