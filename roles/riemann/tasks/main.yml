@@ -10,7 +10,7 @@
     path: "{{ rc_conf_dir }}"
     state: directory
     owner: root
-    group: root
+    group: wheel
     mode: '0755'
 
 - name: Write rc configuration
@@ -18,7 +18,7 @@
     src: rc.riemann.conf.j2
     dest: "{{ rc_conf_dir }}/riemann.conf"
     owner: root
-    group: root
+    group: wheel
     mode: '0644'
 
 - name: Write Riemann configuration
@@ -26,7 +26,7 @@
     src: riemann.config.j2
     dest: "{{ riemann_conf_dir }}/{{ riemann_conf_file }}"
     owner: root
-    group: root
+    group: wheel
     mode: '0644'
 
 - name: Start Riemann service
