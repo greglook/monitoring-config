@@ -7,7 +7,7 @@
   :reload-all)
 
 
-(def config-dir "/usr/local/etc/riemann/")
+(def config-dir "{{ riemann_conf_dir }}/")
 
 
 ; Log output to a file.
@@ -16,27 +16,28 @@
 (logging/set-level "riemann.transport.udp" org.apache.log4j.Level/INFO)
 
 
-; Accept metrics via TCP and UDP on all interfaces.
-(udp-server :host "0.0.0.0" :port 5555 :max-size 65535)
-(tcp-server :host "0.0.0.0" :port 5555)
+; Accept metrics via UDP.
+(udp-server :host "{{ riemann_metrics_bind }}"
+            :port {{ riemann_udp_port }}
+            :max-size 65535)
 
-(ws-server  :host "0.0.0.0" :port 5556)
+; Accept metrics via TCP.
+(tcp-server :host "{{ riemann_metrics_bind }}"
+            :port {{ riemann_tcp_port }})
 
-(comment
-  "TODO: switch to TLS-protected connections once certs are set up"
+; Set up a TLS-protected port for secure metrics. The key can be generated with
+; the following command:
+;     openssl pkcs8 -topk8 -nocrypt -in $tls_key -out $pkcs8_key
+(tcp-server :host "{{ riemann_metrics_bind }}"
+            :port {{ riemann_tls_port }}
+            :tls? true
+            :key     (str config-dir "tls-key.pkcs8")
+            :cert    (str config-dir "riemann.home.gslook.net.crt")
+            :ca-cert (str config-dir "gslook-ca.crt"))
 
-  ; Set up a TLS-protected port for secure metrics. The key can be generated with
-  ; the following command:
-  ;     openssl pkcs8 -topk8 -nocrypt -in $tls_key -out $pkcs8_key
-  (tcp-server :host "0.0.0.0"
-              :port 5554
-              :tls? true
-              :key     (str config-dir "tls-key.pkcs8")
-              :cert    (str config-dir "riemann.home.gslook.net.crt")
-              :ca-cert (str config-dir "gslook-ca.crt"))
-
-  ; Serve websockets on the local interface only, so it can be proxied by Nginx.
-  (ws-server :host "127.0.0.1" :port 5557))
+; Serve websockets locally so it can be proxied securely by Nginx.
+(ws-server  :host "{{ riemann_ws_bind }}"
+            :port {{ riemann_ws_port_internal }})
 
 
 ; Sweep the index for expired events every N seconds.

@@ -6,11 +6,14 @@ riemann_enable: yes
 riemann_conf_dir: /usr/local/etc/riemann
 riemann_conf_file: riemann.config
 
-riemann_bind_address: 0.0.0.0
+riemann_metrics_bind: 0.0.0.0
 riemann_tls_port: 5554
 riemann_tcp_port: 5555
 riemann_udp_port: 5555
-riemann_ws_port:  5556
+
+riemann_ws_bind: 127.0.0.1
+riemann_ws_port: 5556
+riemann_ws_port_internal: 5557
 
 # Dashboard settings
 riemann_dash_enable: yes
