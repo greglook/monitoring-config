@@ -1,0 +1,5 @@
+riemann_enable="YES"
+riemann_config="/usr/local/etc/riemann/riemann.config"
+
+riemann_dash_enable="YES"
+riemann_dash_config="/usr/local/etc/riemann/dash-config.rb"
