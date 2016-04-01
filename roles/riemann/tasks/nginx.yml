@@ -1,0 +1,13 @@
+---
+- name: Install nginx
+  pkgng: name=nginx state=present
+
+- name: Write site configuration
+  template:
+    src: nginx.conf.j2
+    dest: /usr/local/etc/nginx/nginx.conf
+    owner: root
+    group: wheel
+    mode: '0644'
+  notify:
+    - reload nginx

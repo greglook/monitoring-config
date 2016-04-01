@@ -7,3 +7,6 @@
 
 - name: restart riemann-dash
   service: name=riemann-dash state=restarted
+
+- name: reload nginx
+  service: name=nginx state=reloaded
