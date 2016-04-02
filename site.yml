@@ -1,0 +1,22 @@
+---
+- hosts: riemann
+  remote_user: admin
+  become: true
+  roles:
+    - common
+    - tls-cert
+    - riemann
+
+- hosts: influxdb
+  remote_user: admin
+  become: true
+  roles:
+    - common
+    - influxdb
+
+- hosts: grafana
+  remote_user: admin
+  become: true
+  roles:
+    - common
+    - grafana
