@@ -39,13 +39,32 @@
 
 ;; ## Stream Configuration
 
-#_
 (require
-  '[gslook.riemann.common :refer [env]]
+  '[clojure.string :as str]
   :reload-all)
 
 
-(let [index (default {:ttl 300} (index)) ]
+(def env
+  (->> (System/getenv)
+       (map (fn [[k v]] [(keyword (str/lower-case (str/replace k "_" "-"))) v]))
+       (into {})))
+
+
+(def influxdb-writer
+  (batch 100 1
+    (async-queue! :influxdb
+      {:queue-size     1000  ; 10k events max
+       :core-pool-size 2
+       :max-pools-size 8}
+      (influxdb {:host     (env :influxdb-host     "influxdb")
+                 :db       (env :influxdb-database "riemann")
+                 :user     (env :influxdb-user     "riemann")
+                 :password (env :influxdb-pass)
+                 :version :0.9}))))
+
+
+(let [index (default {:ttl 300} (index))]
   (streams
     ; For now, just record things to the index.
-    index))
+    index
+    influxdb-writer))
