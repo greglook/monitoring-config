@@ -5,7 +5,10 @@
     - name: Install bash
       pkgng: name=bash state=present
     - name: Install sudo
-      pkgng: name=sudo state=present
+      pkgng:
+        name: sudo
+        state: present
+        cached: true
     - name: Create admin user
       user:
         uid: 1000
