@@ -26,7 +26,7 @@
 
 - name: Write dashboard configuration
   template:
-    src: riemann.config.j2
+    src: dash-config.rb.j2
     dest: "{{ riemann_conf_dir }}/{{ riemann_dash_conf_file }}"
     owner: root
     group: wheel
