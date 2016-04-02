@@ -1,8 +1,4 @@
 ---
-influxdb_src_url: https://s3.amazonaws.com/influxdb
-influxdb_version: 0.11.1-1
-influxdb_checksum: md5:a311a906fd1803a02121337ac75b71c9
-
 influxdb_user: influxd
 influxdb_group: influxd
 influxdb_data_dir: /data/influxdb
