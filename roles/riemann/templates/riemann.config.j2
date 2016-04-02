@@ -1,14 +1,6 @@
 ; Main entry point for Riemann rules. The code here is evaluated in
 ; the `riemann.config` namespace when it is loaded.
-
-#_
-(require
-  '[gslook.riemann.common :refer [env]]
-  :reload-all)
-
-
-(def config-dir "{{ riemann_conf_dir }}/")
-
+; vim: filetype=clojure :
 
 ; Log output to a file.
 (logging/init {:file "/var/log/riemann/riemann.log"})
@@ -31,9 +23,9 @@
 (tcp-server :host "{{ riemann_metrics_bind }}"
             :port {{ riemann_tls_port }}
             :tls? true
-            :key     (str config-dir "tls-key.pkcs8")
-            :cert    (str config-dir "riemann.home.gslook.net.crt")
-            :ca-cert (str config-dir "gslook-ca.crt"))
+            :key  "{{ riemann_conf_dir }}/tls-key.pkcs8"
+            :cert "/etc/ssl/certs/{{ ansible_fqdn }}.crt"
+            :ca-cert "/etc/ssl/certs/gslook-root-ca.crt")
 
 ; Serve websockets locally so it can be proxied securely by Nginx.
 (ws-server  :host "{{ riemann_ws_bind }}"
@@ -42,6 +34,15 @@
 
 ; Sweep the index for expired events every N seconds.
 (periodically-expire 10)
+
+
+
+;; ## Stream Configuration
+
+#_
+(require
+  '[gslook.riemann.common :refer [env]]
+  :reload-all)
 
 
 (let [index (default {:ttl 300} (index)) ]

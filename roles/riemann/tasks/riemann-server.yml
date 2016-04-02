@@ -37,6 +37,11 @@
   notify:
     - reload riemann
 
+- name: Generate pkcs8 key
+  shell: "openssl pkcs8 -topk8 -nocrypt -in /etc/ssl/private/{{ ansible_fqdn }}.key -out {{ riemann_conf_dir }}/tls-key.pkcs8"
+  notify:
+    - restart riemann
+
 - name: Start Riemann service
   service:
     name: riemann
