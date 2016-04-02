@@ -2,20 +2,23 @@
 - hosts: riemann
   remote_user: admin
   become: true
+  vars_files:
+    - private/vars.yml
   roles:
-    - tls-cert
     - riemann
 
 - hosts: influxdb
   remote_user: admin
   become: true
+  vars_files:
+    - private/vars.yml
   roles:
-    - tls-cert
     - influxdb
 
 - hosts: grafana
   remote_user: admin
   become: true
+  vars_files:
+    - private/vars.yml
   roles:
-    - tls-cert
     - grafana
