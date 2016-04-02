@@ -1,9 +1,14 @@
 ---
 - name: Install Ruby
-  pkgng: name=ruby state=present
+  pkgng:
+    name: ruby
+    state: present
+    cached: yes
 
 - name: Install riemann-dash gem
-  gem: name=riemann-dash state=latest
+  gem:
+    name: riemann-dash
+    state: latest
 
 - name: Enable riemann-dash RC
   lineinfile:
@@ -32,4 +37,6 @@
     - restart riemann-dash
 
 - name: Start Riemann dashboard
-  service: name=riemann-dash state=running
+  service:
+    name: riemann-dash
+    state: running

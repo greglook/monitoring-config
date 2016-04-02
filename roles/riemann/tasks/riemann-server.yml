@@ -1,9 +1,15 @@
 ---
 - name: Install Java
-  pkgng: name=openjdk8 state=present
+  pkgng:
+    name: openjdk8
+    state: present
+    cached: yes
 
 - name: Install Riemann
-  pkgng: name=riemann state=present
+  pkgng:
+    name: riemann
+    state: present
+    cached: yes
 
 - name: Enable Riemann RC
   lineinfile:
@@ -32,4 +38,6 @@
     - reload riemann
 
 - name: Start Riemann service
-  service: name=riemann state=running
+  service:
+    name: riemann
+    state: running
