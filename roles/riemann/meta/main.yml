@@ -1,0 +1,4 @@
+---
+dependencies:
+  - role: tls-cert
+    create_chained_cert: true
