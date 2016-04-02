@@ -13,11 +13,13 @@
     group: wheel
     mode: '0755'
 
-- name: Enable nginx service
-  lineinfile:
-    dest: /etc/rc.conf.local
-    regexp: ^nginx_enable=
-    line: nginx_enable="YES"
+- name: Configure RC service
+  copy:
+    content: "nginx_enable=\"YES\""
+    dest: "{{ rc_conf_dir }}/nginx"
+    owner: root
+    group: wheel
+    mode: '0644'
 
 - name: Write site configuration
   template:
