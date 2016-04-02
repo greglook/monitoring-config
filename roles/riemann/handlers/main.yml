@@ -3,7 +3,7 @@
   service: name=riemann state=restarted
 
 - name: reload riemann
-  service: name=riemann state=reloaded
+  shell: kill -s HUP $(( $(cat /var/run/riemann.pid) + 1 ))
 
 - name: restart riemann-dash
   service: name=riemann-dash state=restarted
