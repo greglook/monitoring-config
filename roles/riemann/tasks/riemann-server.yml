@@ -11,19 +11,17 @@
     state: present
     cached: yes
 
-- name: Enable Riemann RC
+- name: Enable riemann service
   lineinfile:
     dest: /etc/rc.conf.local
     regexp: ^riemann_enable=
     line: riemann_enable="YES"
 
-- name: Write RC configuration
-  template:
-    src: rc.riemann.conf.j2
-    dest: "{{ rc_conf_dir }}/riemann.conf"
-    owner: root
-    group: wheel
-    mode: '0644'
+- name: Set config path
+  lineinfile:
+    dest: /etc/rc.conf.local
+    regexp: ^riemann_config=
+    line: "riemann_config=\"{{ riemann_conf_dir }}/{{ riemann_conf_file }}\""
   notify:
     - restart riemann
 
@@ -39,6 +37,7 @@
 
 - name: Generate pkcs8 key
   shell: "openssl pkcs8 -topk8 -nocrypt -in /etc/ssl/private/{{ ansible_fqdn }}.key -out {{ riemann_conf_dir }}/tls-key.pkcs8"
+  # TODO: only when input is newer than output
   notify:
     - restart riemann
 

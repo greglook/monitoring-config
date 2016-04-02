@@ -13,7 +13,7 @@
     group: wheel
     mode: '0755'
 
-- name: Enable nginx RC
+- name: Enable nginx service
   lineinfile:
     dest: /etc/rc.conf.local
     regexp: ^nginx_enable=
