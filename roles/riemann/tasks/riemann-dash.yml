@@ -5,6 +5,12 @@
 - name: Install riemann-dash gem
   gem: name=riemann-dash state=latest
 
+- name: Enable riemann-dash RC
+  lineinfile:
+    dest: /etc/rc.conf.local
+    regexp: ^riemann_dash_enable=
+    line: riemann_dash_enable="YES"
+
 - name: Write rc configuration
   template:
     src: rc.dash.conf.j2

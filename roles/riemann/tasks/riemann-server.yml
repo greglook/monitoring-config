@@ -5,7 +5,13 @@
 - name: Install Riemann
   pkgng: name=riemann state=present
 
-- name: Write rc configuration
+- name: Enable Riemann RC
+  lineinfile:
+    dest: /etc/rc.conf.local
+    regexp: ^riemann_enable=
+    line: riemann_enable="YES"
+
+- name: Write RC configuration
   template:
     src: rc.riemann.conf.j2
     dest: "{{ rc_conf_dir }}/riemann.conf"

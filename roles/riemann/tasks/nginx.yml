@@ -2,6 +2,12 @@
 - name: Install nginx
   pkgng: name=nginx state=present
 
+- name: Enable nginx RC
+  lineinfile:
+    dest: /etc/rc.conf.local
+    regexp: ^nginx_enable=
+    line: nginx_enable="YES"
+
 - name: Write site configuration
   template:
     src: nginx.conf.j2
@@ -11,3 +17,6 @@
     mode: '0644'
   notify:
     - reload nginx
+
+- name: Start nginx service
+  service: name=nginx state=running
