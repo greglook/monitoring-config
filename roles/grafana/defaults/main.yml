@@ -1,0 +1,6 @@
+---
+grafana_data_dir: /var/db/grafana2
+grafana_log_dir: /var/log/grafana2
+
+grafana_bind_address: 127.0.0.1
+grafana_port: 3000

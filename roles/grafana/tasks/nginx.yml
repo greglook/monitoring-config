@@ -1,0 +1,35 @@
+---
+- name: Install nginx
+  pkgng:
+    name: nginx
+    state: present
+    cached: yes
+
+- name: Create log directory
+  file:
+    path: /var/log/nginx
+    state: directory
+    owner: root
+    group: wheel
+    mode: '0755'
+
+- name: Enable nginx service
+  lineinfile:
+    dest: /etc/rc.conf.local
+    regexp: ^nginx_enable=
+    line: nginx_enable="YES"
+
+- name: Write site configuration
+  template:
+    src: nginx.conf.j2
+    dest: /usr/local/etc/nginx/nginx.conf
+    owner: root
+    group: wheel
+    mode: '0644'
+  notify:
+    - reload nginx
+
+- name: Start nginx service
+  service:
+    name: nginx
+    state: running
