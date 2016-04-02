@@ -1,2 +1,3 @@
 ---
+tls_cert_name: riemann.home.gslook.net
 etc_dir: /usr/local/etc/riemann
