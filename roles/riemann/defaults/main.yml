@@ -1,4 +1,6 @@
 ---
+rc_conf_dir: /etc/rc.conf.d
+
 # Riemann settings
 riemann_enable: yes
 riemann_conf_dir: /usr/local/etc/riemann

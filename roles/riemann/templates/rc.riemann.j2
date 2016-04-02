@@ -1,0 +1,8 @@
+riemann_enable="YES"
+riemann_config="{{ riemann_conf_dir }}/{{ riemann_conf_file }}"
+
+# Secret environment vars:
+{% for var, value in riemann_secrets %}
+{{ var }}="{{ value }}"
+export {{ var }}
+{% endfor %}

@@ -11,17 +11,13 @@
     state: present
     cached: yes
 
-- name: Enable riemann service
-  lineinfile:
-    dest: /etc/rc.conf.local
-    regexp: ^riemann_enable=
-    line: riemann_enable="YES"
-
-- name: Set config path
-  lineinfile:
-    dest: /etc/rc.conf.local
-    regexp: ^riemann_config=
-    line: "riemann_config=\"{{ riemann_conf_dir }}/{{ riemann_conf_file }}\""
+- name: Configure RC service
+  template:
+    src: rc.riemann.j2
+    dest: "{{ rc_conf_dir }}/riemann"
+    owner: root
+    group: wheel
+    mode: '0644'
   notify:
     - restart riemann
 
