@@ -31,11 +31,16 @@
   notify:
     - reload riemann
 
-- name: Generate pkcs8 key
-  shell: "openssl pkcs8 -topk8 -nocrypt -in /etc/ssl/private/{{ ansible_fqdn }}.key -out {{ riemann_conf_dir }}/tls-key.pkcs8"
-  # TODO: only when input is newer than output
-  notify:
-    - restart riemann
+- block:
+    - name: Check PKCS8 key
+      stat:
+        path: "{{ riemann_tls_key }}"
+      register: pkcs8_key
+    - name: Generate pkcs8 key
+      shell: "openssl pkcs8 -topk8 -nocrypt -in {{ tls_key_path }} -out {{ riemann_tls_key }}"
+      when: not pkcs8_key.stat.exists or server_key.changed
+      notify:
+        - restart riemann
 
 - name: Start Riemann service
   service:

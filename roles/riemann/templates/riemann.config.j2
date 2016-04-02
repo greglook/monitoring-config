@@ -23,9 +23,9 @@
 (tcp-server :host "{{ riemann_metrics_bind }}"
             :port {{ riemann_tls_port }}
             :tls? true
-            :key  "{{ riemann_conf_dir }}/tls-key.pkcs8"
-            :cert "/etc/ssl/certs/{{ ansible_fqdn }}.crt"
-            :ca-cert "/etc/ssl/certs/gslook-root-ca.crt")
+            :key  "{{ riemann_tls_key }}"
+            :cert "{{ tls_chained_cert_path }}"
+            :ca-cert "{{ tls_root_ca_path }}")
 
 ; Serve websockets locally so it can be proxied securely by Nginx.
 (ws-server  :host "{{ riemann_ws_bind }}"

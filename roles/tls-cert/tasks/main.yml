@@ -49,6 +49,7 @@
     owner: root
     group: wheel
     mode: '0600'
+  register: server_key
 
 - block:
     - name: Check certificate chain
