@@ -23,13 +23,13 @@
     group: wheel
     mode: '0644'
   with_items:
-    - "private/{{ tls_root_ca }}"
-    - "private/{{ tls_services_ca }}"
+    - "private/{{ tls_root_ca }}.crt"
+    - "private/{{ tls_intermediate_ca }}.crt"
 
 - name: Install server certificate
   copy:
     src: "private/{{ tls_cert_name }}.crt"
-    dest: "{{ tls_certs_dir }}/{{ tls_cert_name }}.crt"
+    dest: "{{ tls_cert_path }}"
     owner: root
     group: wheel
     mode: '0644'
@@ -37,7 +37,7 @@
 - name: Install server key
   copy:
     src: "private/{{ tls_cert_name }}.key"
-    dest: "{{ tls_private_dir }}/{{ tls_cert_name }}.key"
+    dest: "{{ tls_key_path }}"
     owner: root
     group: wheel
     mode: '0600'
