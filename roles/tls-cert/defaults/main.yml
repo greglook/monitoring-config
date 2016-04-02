@@ -1,0 +1,6 @@
+---
+tls_certs_dir: /etc/ssl/certs
+tls_private_dir: /etc/ssl/private
+tls_root_ca: gslook-root-ca.crt
+tls_services_ca: gslook-services-ca.crt
+tls_cert_name: "{{ ansible_fqdn }}"

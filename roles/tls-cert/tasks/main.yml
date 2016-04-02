@@ -1,0 +1,46 @@
+---
+- name: Create certificate directory
+  file:
+    name: "{{ tls_certs_dir }}"
+    state: directory
+    owner: root
+    group: wheel
+    mode: '0755'
+
+- name: Create keys directory
+  file:
+    name: "{{ tls_private_dir }}"
+    state: directory
+    owner: root
+    group: wheel
+    mode: '0750'
+
+- name: Add certificate authorities
+  copy:
+    src: "{{ item }}"
+    dest: "{{ tls_certs_dir }}/{{ item | basename }}"
+    owner: root
+    group: wheel
+    mode: '0644'
+  with_items:
+    - "private/{{ tls_root_ca }}"
+    - "private/{{ tls_services_ca }}"
+
+- name: Install server certificate
+  copy:
+    src: "private/{{ tls_cert_name }}.crt"
+    dest: "{{ tls_certs_dir }}/{{ tls_cert_name }}.crt"
+    owner: root
+    group: wheel
+    mode: '0644'
+
+- name: Install server key
+  copy:
+    src: "private/{{ tls_cert_name }}.key"
+    dest: "{{ tls_private_dir }}/{{ tls_cert_name }}.key"
+    owner: root
+    group: wheel
+    mode: '0600'
+
+- name: Combine certificate chain
+  shell: "cat {{ tls_certs_dir }}/{{ tls_cert_name }}.crt {{ tls_certs_dir }}/{{ tls_services_ca }} > {{ tls_certs_dir }}/chained_{{ tls_cert_name }}.crt"
