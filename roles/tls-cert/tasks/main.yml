@@ -42,5 +42,18 @@
     group: wheel
     mode: '0600'
 
-- name: Combine certificate chain
-  shell: "cat {{ tls_certs_dir }}/{{ tls_cert_name }}.crt {{ tls_certs_dir }}/{{ tls_services_ca }} > {{ tls_certs_dir }}/chained_{{ tls_cert_name }}.crt"
+- block:
+    - stat:
+        path: "{{ tls_intermediate_ca_path }}"
+      register: ica
+    - stat:
+        path: "{{ tls_cert_path }}"
+      register: cert
+    - stat:
+        path: "{{ tls_chained_cert_path }}"
+      register: chain
+    - name: Combine certificate chain
+      shell: "cat {{ tls_cert_path }} {{ tls_intermediate_ca_path }} > {{ tls_chained_cert_path }}"
+      when: not chain.stat.exists or ( ica.stat.mtime > chain.stat.mtime ) or ( cert.stat.mtime > chain.stat.mtime )
+      notify:
+        - restart riemann
