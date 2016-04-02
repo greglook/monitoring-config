@@ -10,17 +10,13 @@
     name: riemann-dash
     state: latest
 
-- name: Enable riemann-dash service
-  lineinfile:
-    dest: /etc/rc.conf.local
-    regexp: ^riemann_dash_enable=
-    line: riemann_dash_enable="YES"
-
-- name: Set dashboard config path
-  lineinfile:
-    dest: /etc/rc.conf.local
-    regexp: ^riemann_dash_config=
-    line: "riemann_dash_config=\"{{ riemann_conf_dir }}/{{ riemann_dash_conf_file }}\""
+- name: Configure RC service
+  template:
+    src: rc.dash.j2
+    dest: "{{ rc_conf_dir }}/riemann-dash"
+    owner: root
+    group: wheel
+    mode: '0644'
   notify:
     - restart riemann-dash
 
