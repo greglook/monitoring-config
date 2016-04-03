@@ -199,9 +199,9 @@ reporting-disabled = true
 
 [admin]
   enabled = true
-  bind-address = ":{{ influxdb_admin_port }}"
-  https-enabled = false
-  https-certificate = "/etc/ssl/influxdb.pem"
+  bind-address = ":{{ influxdb_admin_port }}"  # TODO: switch to localhost with an nginx proxy
+  https-enabled = true
+  https-certificate = "{{ tls_pem_path }}"
 
 ###
 ### [http]
@@ -217,8 +217,8 @@ reporting-disabled = true
   log-enabled = true
   write-tracing = false
   pprof-enabled = false
-  https-enabled = false
-  https-certificate = "/etc/ssl/influxdb.pem"
+  https-enabled = true
+  https-certificate = "{{ tls_pem_path }}"
 
 ###
 ### [[graphite]]

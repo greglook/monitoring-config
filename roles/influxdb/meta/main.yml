@@ -1,0 +1,6 @@
+---
+dependencies:
+  - role: tls-cert
+    create_pem_key: true
+    tls_pem_path: "{{ influxdb_config_dir }}/{{ tls_cert_name }}.pem"
+    tls_key_group: "{{ influxdb_group }}"

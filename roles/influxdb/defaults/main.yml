@@ -1,6 +1,8 @@
 ---
 influxdb_user: influxd
 influxdb_group: influxd
+
+influxdb_config_dir: /usr/local/etc
 influxdb_data_dir: /data/influxdb
 
 influxdb_api_port: 8086

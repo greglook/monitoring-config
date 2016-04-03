@@ -1,3 +1,5 @@
 ---
 - name: restart influxd
-  service: name=influxd state=restarted
+  service:
+    name: influxd
+    state: restarted
