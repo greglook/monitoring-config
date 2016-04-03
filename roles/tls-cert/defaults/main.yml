@@ -5,9 +5,12 @@ tls_cert_name: "{{ server_name | default(ansible_fqdn) }}"
 
 tls_certs_dir: /etc/ssl/certs
 tls_private_dir: /etc/ssl/private
+tls_key_path: "{{ tls_private_dir }}/{{ tls_cert_name }}.key"
+tls_pem_path: "{{ tls_private_dir }}/{{ tls_cert_name }}.pem"
 
 tls_key_owner: root
 tls_key_group: wheel
+tls_key_mode: '0640'
 
 create_chained_cert: false
 create_pem_key: false

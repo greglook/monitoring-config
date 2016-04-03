@@ -23,6 +23,7 @@
     group: wheel
     mode: '0644'
   register: root_ca
+  # TODO: update system trusted certs somehow
 
 - name: Install Intermediate CA
   copy:
@@ -48,7 +49,7 @@
     dest: "{{ tls_key_path }}"
     owner: "{{ tls_key_owner }}"
     group: "{{ tls_key_group }}"
-    mode: '0600'
+    mode: "{{ tls_key_mode }}"
   register: server_key
 
 - block:
@@ -74,5 +75,5 @@
         path: "{{ tls_pem_path }}"
         owner: "{{ tls_key_owner }}"
         group: "{{ tls_key_group }}"
-        mode: '0600'
+        mode: "{{ tls_key_mode }}"
   when: create_pem_key
