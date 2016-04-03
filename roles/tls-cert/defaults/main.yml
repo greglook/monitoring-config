@@ -6,4 +6,8 @@ tls_cert_name: "{{ server_name | default(ansible_fqdn) }}"
 tls_certs_dir: /etc/ssl/certs
 tls_private_dir: /etc/ssl/private
 
+tls_key_owner: root
+tls_key_group: wheel
+
 create_chained_cert: false
+create_pem_key: false

@@ -46,8 +46,8 @@
   copy:
     src: "private/{{ tls_cert_name }}.key"
     dest: "{{ tls_key_path }}"
-    owner: root
-    group: wheel
+    owner: "{{ tls_key_owner }}"
+    group: "{{ tls_key_group }}"
     mode: '0600'
   register: server_key
 
@@ -59,6 +59,20 @@
     - name: Combine certificate chain
       shell: "cat {{ tls_cert_path }} {{ tls_intermediate_ca_path }} > {{ tls_chained_cert_path }}"
       when: not chain_cert.stat.exists or server_cert.changed or intermediate_ca.changed
-      notify:
-        - restart riemann
   when: create_chained_cert
+
+- block:
+    - name: Check PEM key
+      stat:
+        path: "{{ tls_pem_path }}"
+      register: pem_key
+    - name: Combine PEM key
+      shell: "cat {{ tls_cert_path }} {{ tls_intermediate_ca_path }} {{ tls_key_path }} > {{ tls_pem_path }}"
+      when: not pem_key.stat.exists or intermediate_ca.changed or server_cert.changed or server_key.changed
+    - name: Set PEM permissions
+      file:
+        path: "{{ tls_pem_path }}"
+        owner: "{{ tls_key_owner }}"
+        group: "{{ tls_key_group }}"
+        mode: '0600'
+  when: create_pem_key
