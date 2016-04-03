@@ -1,2 +1,4 @@
 ---
+riemann_conf_file: "{{ riemann_conf_dir }}/riemann.config"
 riemann_tls_key: "{{ riemann_conf_dir }}/tls-key.pkcs8"
+riemann_trust_store: "{{ riemann_conf_dir }}/truststore.jks"

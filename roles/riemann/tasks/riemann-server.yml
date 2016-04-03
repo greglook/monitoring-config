@@ -1,15 +1,13 @@
 ---
-- name: Install Java
+- name: Install packages
   pkgng:
-    name: openjdk8
+    name: "{{ item }}"
     state: present
     cached: yes
-
-- name: Install Riemann
-  pkgng:
-    name: riemann
-    state: present
-    cached: yes
+  with_items:
+    - openjdk8
+    - riemann
+    - py27-pexpect-3.3
 
 - name: Configure RC service
   template:
@@ -24,12 +22,13 @@
 - name: Write Riemann configuration
   template:
     src: riemann.config.j2
-    dest: "{{ riemann_conf_dir }}/{{ riemann_conf_file }}"
+    dest: "{{ riemann_conf_file }}"
     owner: root
     group: wheel
     mode: '0644'
   notify:
-    - reload riemann
+    # TODO: ideally, should reload instead
+    - restart riemann
 
 - block:
     - name: Check PKCS8 key
@@ -43,19 +42,21 @@
         - restart riemann
 
 - block:
-    - name: Check Java trust store
-      stat:
-        path: "{{ riemann_trust_store }}"
-      register: truststore
     - name: Clean trust store
       file:
         path: "{{ riemann_trust_store }}"
         state: absent
       when: root_ca.changed
-    - name: Import Root CA trust store
-      shell: "keytool -import -file {{ root_ca_path }} -alias myCA -keystore {{ riemann_trust_store }}"
-      # TODO: might need to use expect
-      when: not truststore.stat.exists or root_ca.changed
+    - name: Import Root CA into trust store
+      expect:
+        command: "keytool -import -file {{ tls_root_ca_path }} -alias myCA -keystore {{ riemann_trust_store }}"
+        creates: "{{ riemann_trust_store }}"
+        responses:
+          "Enter keystore password": "abcdef"
+          "Re-enter new password": "abcdef"
+          "Trust this certificate": "yes"
+      notify:
+        - restart riemann
 
 - name: Start Riemann service
   service:
