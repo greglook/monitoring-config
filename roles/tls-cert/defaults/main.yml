@@ -1,6 +1,6 @@
 ---
-tls_root_ca: gslook-root-ca
-tls_intermediate_ca: gslook-services-ca
+tls_root_ca: root-ca
+tls_intermediate_ca: intermediate-ca
 tls_cert_name: "{{ server_name | default(ansible_fqdn) }}"
 
 tls_certs_dir: /etc/ssl/certs
