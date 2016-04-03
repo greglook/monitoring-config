@@ -42,6 +42,21 @@
       notify:
         - restart riemann
 
+- block:
+    - name: Check Java trust store
+      stat:
+        path: "{{ riemann_trust_store }}"
+      register: truststore
+    - name: Clean trust store
+      file:
+        path: "{{ riemann_trust_store }}"
+        state: absent
+      when: root_ca.changed
+    - name: Import Root CA trust store
+      shell: "keytool -import -file {{ root_ca_path }} -alias myCA -keystore {{ riemann_trust_store }}"
+      # TODO: might need to use expect
+      when: not truststore.stat.exists or root_ca.changed
+
 - name: Start Riemann service
   service:
     name: riemann

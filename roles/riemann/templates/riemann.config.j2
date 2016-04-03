@@ -56,7 +56,8 @@
       {:queue-size     1000  ; 10k events max
        :core-pool-size 2
        :max-pools-size 8}
-      (influxdb {:host     (env :influxdb-host     "influxdb")
+      (influxdb {:scheme   "https"
+                 :host     (env :influxdb-host     "influxdb")
                  :db       (env :influxdb-database "riemann")
                  :user     (env :influxdb-user     "riemann")
                  :password (env :influxdb-pass)

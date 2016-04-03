@@ -1,6 +1,10 @@
 riemann_enable="YES"
 riemann_config="{{ riemann_conf_dir }}/{{ riemann_conf_file }}"
 
+# Extra JVM arguments
+_JAVA_OPTIONS="-Djavax.net.ssl.trustStore={{ riemann_trust_store }}"
+export _JAVA_OPTIONS
+
 # Secret environment vars:
 {% for var, value in riemann_secrets.items() %}
 {{ var }}="{{ value }}"
