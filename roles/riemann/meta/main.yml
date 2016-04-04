@@ -3,3 +3,5 @@ dependencies:
   - role: common
   - role: tls-cert
     create_chained_cert: true
+  - role: nginx
+    nginx_conf_src:

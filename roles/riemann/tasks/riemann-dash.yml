@@ -30,7 +30,7 @@
   notify:
     - restart riemann-dash
 
-- name: Start Riemann dashboard
+- name: Ensure riemann-dash is running
   service:
     name: riemann-dash
     state: running

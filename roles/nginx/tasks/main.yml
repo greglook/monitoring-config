@@ -30,6 +30,7 @@
     mode: '0644'
   notify:
     - restart nginx
+  when: nginx_conf_src
 
 - name: Ensure nginx is running
   service:
