@@ -4,12 +4,18 @@
     name: influxdb
     state: present
     cached: yes
+  tags:
+    - influxdb
 
 - name: Enable influxd service
-  lineinfile:
-    dest: /etc/rc.conf.local
-    regexp: ^influxd_enable=
-    line: influxd_enable="YES"
+  copy:
+    content: "influxd_enable=\"YES\""
+    dest: "{{ rc_conf_dir }}/influxd"
+    owner: root
+    group: wheel
+    mode: '0644'
+  tags:
+    - influxdb
 
 - name: Prepare data directory
   file:
@@ -18,6 +24,8 @@
     owner: "{{ influxdb_user }}"
     group: "{{ influxdb_group }}"
     mode: '0755'
+  tags:
+    - influxdb
 
 - name: Write InfluxDB configuration
   template:
@@ -28,8 +36,12 @@
     mode: '0644'
   notify:
     - restart influxd
+  tags:
+    - influxdb
 
-- name: Ensure InfluxDB is running
+- name: Ensure influxd is running
   service:
     name: influxd
     state: running
+  tags:
+    - influxdb
