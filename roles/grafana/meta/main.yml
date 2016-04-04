@@ -1,7 +1,6 @@
 ---
 dependencies:
-  - role: tls-cert
-    create_chained_cert: true
+  - role: common
   - role: nginx
     nginx_backend_address: "{{ grafana_bind_address }}"
     nginx_backend_port: "{{ grafana_port }}"

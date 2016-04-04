@@ -1,0 +1,8 @@
+---
+- name: Create RC directory
+  file:
+    path: "{{ rc_conf_dir }}"
+    state: directory
+    owner: root
+    group: wheel
+    mode: '0755'

@@ -5,11 +5,13 @@
     state: present
     cached: yes
 
-- name: Enable grafana service
-  lineinfile:
-    dest: /etc/rc.conf.local
-    regexp: ^grafana2_enable=
-    line: grafana2_enable="YES"
+- name: Configure RC service
+  copy:
+    content: "grafana2_enable=\"YES\""
+    dest: "{{ rc_conf_dir }}/grafana2"
+    owner: root
+    group: wheel
+    mode: '0644'
 
 - name: Write Grafana configuration
   template:
@@ -21,7 +23,7 @@
   notify:
     - restart grafana
 
-- name: Run Grafana service
+- name: Ensure Grafana is running
   service:
     name: grafana2
     state: running
