@@ -1,4 +1,6 @@
-##################### Grafana Configuration Example #####################
+# {{ ansible_managed }}
+
+############################ Grafana Configuration ############################
 #
 # Everything has defaults so you only need to uncomment things you want to
 # change
@@ -27,7 +29,7 @@ http_addr = {{ grafana_bind_address }}
 http_port = {{ grafana_port }}
 
 # The public facing domain name used to access grafana from a browser
-domain = {{ tls_cert_name }}
+domain = {{ server_name }}
 
 # The full public facing url
 #root_url = %(protocol)s://%(domain)s:%(http_port)s/

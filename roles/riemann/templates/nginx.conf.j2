@@ -1,7 +1,7 @@
-# Riemann NGINX configuration
+# {{ ansible_managed }}
 
 #user  nobody;
-worker_processes  2;
+worker_processes {{ ansible_processor_count }};
 
 events {
   worker_connections  1024;

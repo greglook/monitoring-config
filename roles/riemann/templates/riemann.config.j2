@@ -1,6 +1,8 @@
+; {{ ansible_managed }}
+; vim: filetype=clojure :
+
 ; Main entry point for Riemann rules. The code here is evaluated in
 ; the `riemann.config` namespace when it is loaded.
-; vim: filetype=clojure :
 
 ; Log output to a file.
 (logging/init {:file "/var/log/riemann/riemann.log"})
