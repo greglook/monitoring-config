@@ -45,8 +45,8 @@ http {
 
     # TLS settings.
     ssl_prefer_server_ciphers on;
-    ssl_protocols       {{ nginx_tls_protocols | join(' ') }};
-    ssl_ciphers         {{ nginx_tls_ciphers | join(':') }};
+    ssl_protocols       {{ tls_protocols | join(' ') }};
+    ssl_ciphers         {{ tls_ciphers | join(':') }};
     ssl_certificate     {{ tls_chained_cert_path }};
     ssl_certificate_key {{ tls_key_path }};
     ssl_session_cache   shared:SSL:50m;
