@@ -1,0 +1,27 @@
+---
+- name: Install Grafana
+  pkgng:
+    name: grafana2
+    state: present
+    cached: yes
+
+- name: Enable grafana service
+  lineinfile:
+    dest: /etc/rc.conf.local
+    regexp: ^grafana2_enable=
+    line: grafana2_enable="YES"
+
+- name: Write Grafana configuration
+  template:
+    src: grafana2.conf.j2
+    dest: /usr/local/etc/grafana2.conf
+    owner: root
+    group: wheel
+    mode: '0644'
+  notify:
+    - restart grafana
+
+- name: Run Grafana service
+  service:
+    name: grafana2
+    state: running
