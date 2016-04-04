@@ -58,7 +58,7 @@
       notify:
         - restart riemann
 
-- name: Ensure Riemann is running
+- name: Ensure riemann is running
   service:
     name: riemann
     state: running

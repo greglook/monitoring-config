@@ -1,4 +1,10 @@
 ---
 - include: riemann-server.yml
+  tags:
+    - riemann-server
 - include: riemann-dash.yml
+  tags:
+    - riemann-dash
 - include: nginx.yml
+  tags:
+    - nginx
