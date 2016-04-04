@@ -59,7 +59,7 @@
       (influxdb {:scheme   "https"
                  :host     (env :influxdb-host     "influxdb")
                  :db       (env :influxdb-database "riemann")
-                 :user     (env :influxdb-user     "riemann")
+                 :username (env :influxdb-user     "riemann")
                  :password (env :influxdb-pass)
                  :version :0.9}))))
 
