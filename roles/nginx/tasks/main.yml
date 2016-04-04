@@ -4,6 +4,8 @@
     name: nginx
     state: present
     cached: yes
+  tags:
+    - nginx
 
 - name: Create log directory
   file:
@@ -12,6 +14,8 @@
     owner: root
     group: wheel
     mode: '0755'
+  tags:
+    - nginx
 
 - name: Configure RC service
   copy:
@@ -20,6 +24,8 @@
     owner: root
     group: wheel
     mode: '0644'
+  tags:
+    - nginx
 
 - name: Write site configuration
   template:
@@ -31,8 +37,12 @@
   notify:
     - restart nginx
   when: nginx_conf_src
+  tags:
+    - nginx
 
 - name: Ensure nginx is running
   service:
     name: nginx
     state: running
+  tags:
+    - nginx
