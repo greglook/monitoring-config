@@ -4,6 +4,7 @@ nginx_log_dir: /var/log/nginx
 nginx_conf_src: nginx.conf.j2
 nginx_conf_file: /usr/local/etc/nginx/nginx.conf
 
+nginx_backend_scheme: http
 nginx_backend_address: localhost
 nginx_backend_port: 8080
 

@@ -53,7 +53,7 @@ http {
     ssl_session_timeout 5m;
 
     location / {
-      proxy_pass http://backend;
+      proxy_pass {{ nginx_backend_scheme }}://backend;
     }
   }
 }
