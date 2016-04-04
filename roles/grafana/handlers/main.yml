@@ -1,3 +1,5 @@
 ---
 - name: restart grafana
-  service: name=grafana2 state=restarted
+  service:
+    name: grafana2
+    state: restarted

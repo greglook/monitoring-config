@@ -1,6 +1,11 @@
 ---
 dependencies:
+  - role: common
   - role: tls-cert
+    create_chained_cert: true
     create_pem_key: true
     tls_pem_path: "{{ influxdb_config_dir }}/{{ tls_cert_name }}.pem"
     tls_key_group: "{{ influxdb_group }}"
+  - role: nginx
+    nginx_backend_scheme: https
+    nginx_backend_port: "{{ influxdb_admin_port }}"
