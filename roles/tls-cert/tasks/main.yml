@@ -6,6 +6,8 @@
     owner: root
     group: wheel
     mode: '0755'
+  tags:
+    - tls-cert
 
 - name: Create keys directory
   file:
@@ -14,6 +16,8 @@
     owner: root
     group: wheel
     mode: '0750'
+  tags:
+    - tls-cert
 
 - name: Install Root CA
   copy:
@@ -24,6 +28,8 @@
     mode: '0644'
   register: root_ca
   # TODO: update system trusted certs somehow
+  tags:
+    - tls-cert
 
 - name: Install Intermediate CA
   copy:
@@ -33,6 +39,8 @@
     group: wheel
     mode: '0644'
   register: intermediate_ca
+  tags:
+    - tls-cert
 
 - name: Install server certificate
   copy:
@@ -42,6 +50,8 @@
     group: wheel
     mode: '0644'
   register: server_cert
+  tags:
+    - tls-cert
 
 - name: Install server key
   copy:
@@ -51,6 +61,8 @@
     group: "{{ tls_key_group }}"
     mode: "{{ tls_key_mode }}"
   register: server_key
+  tags:
+    - tls-cert
 
 - block:
     - name: Check certificate chain
@@ -61,6 +73,8 @@
       shell: "cat {{ tls_cert_path }} {{ tls_intermediate_ca_path }} > {{ tls_chained_cert_path }}"
       when: not chain_cert.stat.exists or server_cert.changed or intermediate_ca.changed
   when: create_chained_cert
+  tags:
+    - tls-cert
 
 - block:
     - name: Check PEM key
@@ -77,3 +91,5 @@
         group: "{{ tls_key_group }}"
         mode: "{{ tls_key_mode }}"
   when: create_pem_key
+  tags:
+    - tls-cert
