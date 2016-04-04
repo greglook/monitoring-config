@@ -4,6 +4,8 @@
     name: grafana2
     state: present
     cached: yes
+  tags:
+    - grafana
 
 - name: Configure RC service
   copy:
@@ -12,6 +14,8 @@
     owner: root
     group: wheel
     mode: '0644'
+  tags:
+    - grafana
 
 - name: Write Grafana configuration
   template:
@@ -22,8 +26,12 @@
     mode: '0644'
   notify:
     - restart grafana
+  tags:
+    - grafana
 
 - name: Ensure Grafana is running
   service:
     name: grafana2
     state: running
+  tags:
+    - grafana
